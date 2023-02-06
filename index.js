@@ -1,9 +1,9 @@
 var express = require("express");
 var app = express()
 var students=["Tony","Lisa","Michael","Ginger","Food"];
-var cars={Brand:"Volvo",Model:"Mustang",Year:2006};
-var carbrand=cars.Year
-    console.log(carbrand)
+// var cars={Brand:"Volvo",Model:"Mustang",Year:2006};
+// var carbrand=cars.Year
+//     console.log(carbrand)
     
 var student=[{ID:1,FirstName:"Yvone",SecondName:"Njeri",StudentID:8391},{ID:2,FirstName:"Benson",SecondName:"Gathu",StudentID:8392},{ID:3,FirstName:"Aburili",SecondName:"Anami",StudentID:8393}];
 var studentname=student.FirstName("Yvone")
@@ -22,9 +22,9 @@ app.get("/student", (req, res, next) => {
     });
 
     
-app.get("/cars", (req, res, next) => {
-    res.json(cars);
-    });
+// app.get("/cars", (req, res, next) => {
+//     res.json(cars);
+//     });
 
 app.get("/students", (req, res, next) => {
 res.json(students);

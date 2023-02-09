@@ -84,18 +84,32 @@ app.get("/books/:id", (req, res) => {
   res.json(bookInfo);
 });
 
-
 app.post("/books", (req, res) => {
   var { ID, Title, SerialNumber } = req.body;
   var book = req.body;
-  books.push(book);
+  books.push(book); //adding a books
   return res.send("Book has been succesfully added");
 });
 
+app.delete("/books/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const bookToDelete = books.find((x) => x.ID == id);
+  if (bookToDelete) {
+    const index = books.indexOf(bookToDelete);
+    books.splice(index, 1);
+    return res.send("Book has been successfuly been deleted");
+  } else {
+    return res.send(`Book with the ID ${id} does not exist`);
+  }
 
+  // for(book of books)
+  //   console.log(id)
+  //   return res.send(id)
+  //return res.send("Book deleted successfully")
+});
 
 app.get("/students", (req, res, next) => {
-  res.json(student);
+  res.json(students);
 });
 
 app.get("/students/:id", (req, res) => {
@@ -105,6 +119,12 @@ app.get("/students/:id", (req, res) => {
   res.json(studentinfo);
   // res.json(`my students id is ${id}`); // browser output
   // console.log(`my book id is ${id}`); //terminal output
+});
+app.post("/students", (req, res) => {
+  var { ID, FirstName, SecondName, StudentID } = req.body;
+  var student = req.body; //created a new student
+  students.push(student); //adding the created student
+  return res.send("Student has been succesfully added"); //output after adding the student
 });
 
 // app.get("/cars", (req, res, next) => {

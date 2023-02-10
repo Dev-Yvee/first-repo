@@ -124,7 +124,7 @@ app.delete("/students/:id", (req, res) => {
     students.splice(index, 1); //deleting books
     return res.send("Student has been successfuly been deleted");
   } else {
-    return res.send(`Student with the ID ${studentid} does not exist`);
+    return res.send(`Student with the ID ${id} does not exist`);
   }
 });
 app.patch("/students/:id", (req, res) => {

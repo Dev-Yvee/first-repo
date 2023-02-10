@@ -6,11 +6,6 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//var students=["Tony","Lisa","Michael","Ginger","Food"];
-// var cars={Brand:"Volvo",Model:"Mustang",Year:2006};
-// var carbrand=cars.Year
-//     console.log(carbrand)
-
 var students = [
   { ID: 1, FirstName: "Yvone", SecondName: "Njeri", StudentID: 8391 },
   { ID: 2, FirstName: "Benson", SecondName: "Gathu", StudentID: 8392 },
@@ -30,23 +25,8 @@ function studentdetails(studentid) {
       //console.log(studentid)
       return students[i];
     }
-    //  else
-    //  {
-    //    return "Student with id ${studentid} does not exist"
-    //   }
   }
 }
-
-// for (student of students) {
-//   //for loop iterating the student list
-//   if (student["StudentID"] == parseInt(studentid)) {
-//     //if loop cheching if the studentid input is true or false
-//     console.log(student)
-//     // return student;
-//   } else {
-//     return `Student with that id ${studentid} does not exist`;
-//   }
-// }
 
 var bookDetails = (bookId) => {
   for (let i = 0; i < books.length; i++) {
@@ -54,22 +34,7 @@ var bookDetails = (bookId) => {
       // console.log(books[i])
       return books[i];
     }
-    // else {
-    //   return `Book with the id ${bookId} does not exist`
-    // }
   }
-
-  // for (book of books) {
-  //   if (book["SerialNumber"] === bookId) {
-  //     return book;
-  //   } else {
-  //     return `Book with Serial Number ${bookId} doesnt exist`;
-  //   }
-
-  // res.json(`my book id is ${bookId}`);
-  // console.log(`my book id is ${bookId}`);
-
-  // console.log("our bookId "+ bookId)
 };
 
 app.get("/books", (req, res, next) => {
@@ -93,19 +58,44 @@ app.post("/books", (req, res) => {
 
 app.delete("/books/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  const bookToDelete = books.find((x) => x.ID == id);
+  const bookToDelete = books.find((x) => x.SerialNumber == id);
   if (bookToDelete) {
     const index = books.indexOf(bookToDelete);
-    books.splice(index, 1);
+    books.splice(index, 1); //deleting books
     return res.send("Book has been successfuly been deleted");
   } else {
-    return res.send(`Book with the ID ${id} does not exist`);
+    return res.send(`Book with the serial Number ${id} does not exist`);
   }
+});
 
-  // for(book of books)
-  //   console.log(id)
-  //   return res.send(id)
-  //return res.send("Book deleted successfully")
+app.put("/books/:id", (req, res) => {
+  const id = parseInt(req.params.id); //converting the string to int
+  const bookToUpdate = books.find((el) => el.SerialNumber == id); //loop to find the book inputed
+
+  if (!bookToUpdate) {
+    return res.send(`Book with ID ${id} does not exist`);
+  }
+  const index = books.indexOf(bookToUpdate); // find the index of the book
+
+  Object.assign(bookToUpdate, req.body); //updating books
+
+  books[index] = bookToUpdate;
+  return res.send(`Book with ID ${id} has been updated`);
+});
+//updating books
+app.patch("/books/:id", (req, res) => {
+  const id = parseInt(req.params.id); //converting the string to int
+  const bookToUpdate = books.find((el) => el.ID == id); //loop to find the book inputed
+
+  if (!bookToUpdate) {
+    return res.send(`Book with ID ${id} does not exist`);
+  }
+  const index = books.indexOf(bookToUpdate); // find the index of the book
+
+  Object.assign(bookToUpdate, req.body); //updating books
+
+  books[index] = bookToUpdate;
+  return res.send(`Book with ID ${id} has been updated`);
 });
 
 app.get("/students", (req, res, next) => {
@@ -126,20 +116,31 @@ app.post("/students", (req, res) => {
   students.push(student); //adding the created student
   return res.send("Student has been succesfully added"); //output after adding the student
 });
+app.delete("/students/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const studentToDelete = students.find((x) => x.StudentID == id);
+  if (studentToDelete) {
+    const index = students.indexOf(studentToDelete);
+    students.splice(index, 1); //deleting books
+    return res.send("Student has been successfuly been deleted");
+  } else {
+    return res.send(`Student with the ID ${studentid} does not exist`);
+  }
+});
+app.patch("/students/:id", (req, res) => {
+  const id = parseInt(req.params.id); //converting the string to int
+  const studentToUpdate = students.find((el) => el.StudentID == id); //loop to find the book inputed
 
-// app.get("/cars", (req, res, next) => {
-//     res.json(cars);
-//     });
+  if (!studentToUpdate) {
+    return res.send(`Student with ID ${id} does not exist`);
+  }
+  const index = students.indexOf(studentToUpdate); // find the index of the book
 
-//app.get("/students", (req, res, next) => {
-//res.json(students);
-//});
-// app.get("/name", (req, res, next) => {
-//     res.json(["Yvone ","njeri","Yvee"]);
-//    });
-//app.get("/phones" ,(req, res, next) => {
-//  res.json(["Samsung ","Techno","IPhone"]);
-//});
+  Object.assign(studentToUpdate, req.body); //updating books
+
+  students[index] = studentToUpdate;
+  return res.send(`Student with the Student ID ${id} has been updated`);
+});
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");

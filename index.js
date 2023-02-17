@@ -4,7 +4,7 @@ const app = express();
 
 app.use(express.json());
 const routes = require('./routes/routes');
- 
+  
 app.use('/api', routes)
 
 const mongoose = require('mongoose');

@@ -1,8 +1,13 @@
 require('dotenv').config();
+
 const express = require('express');
 const app = express();
+const cors = require("cors") //Newly added
+app.use(cors()) // Newly added
 
-app.use(express.json());
+
+
+app.use(express.json({ limit: "50mb" }));
 const routes = require('./routes/routes');
   
 app.use('/api', routes)
